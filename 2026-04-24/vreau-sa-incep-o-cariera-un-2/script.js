@@ -154,55 +154,13 @@ const nav = document.querySelector("[data-nav]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const orderForm = document.querySelector("[data-order-form]");
 const formNote = document.querySelector("[data-form-note]");
-const kebabRain = document.querySelector("[data-kebab-rain]");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-let lastDropAt = 0;
 
 const updateHeader = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 24);
 };
 
-const createKebabDrop = () => {
-  if (!kebabRain || reduceMotion) return;
-
-  const drop = document.createElement("span");
-  const size = Math.round(18 + Math.random() * 14);
-  const left = Math.round(5 + Math.random() * 90);
-  const drift = Math.round(-80 + Math.random() * 160);
-  const rotate = Math.round(-35 + Math.random() * 70);
-  const duration = (1.8 + Math.random() * 1.1).toFixed(2);
-
-  drop.className = "kebab-drop";
-  drop.style.setProperty("--drop-size", `${size}px`);
-  drop.style.setProperty("--drop-left", `${left}vw`);
-  drop.style.setProperty("--drop-drift", `${drift}px`);
-  drop.style.setProperty("--drop-rotate", `${rotate}deg`);
-  drop.style.setProperty("--drop-duration", `${duration}s`);
-
-  kebabRain.append(drop);
-  drop.addEventListener("animationend", () => drop.remove(), { once: true });
-};
-
-const maybeDropKebab = () => {
-  const now = Date.now();
-  if (now - lastDropAt < 170) return;
-
-  lastDropAt = now;
-  createKebabDrop();
-  if (Math.random() > 0.68) {
-    window.setTimeout(createKebabDrop, 80);
-  }
-};
-
 updateHeader();
-window.addEventListener(
-  "scroll",
-  () => {
-    updateHeader();
-    maybeDropKebab();
-  },
-  { passive: true },
-);
+window.addEventListener("scroll", updateHeader, { passive: true });
 
 navToggle?.addEventListener("click", () => {
   nav?.classList.toggle("is-open");
