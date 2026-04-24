@@ -1,0 +1,9 @@
+{
+  "name": "tiktok-kebab-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de prezentare TikTok Kebab pregatit pentru deploy pe Vercel.",
+  "scripts": {
+    "check": "node --check script.js"
+  }
+}

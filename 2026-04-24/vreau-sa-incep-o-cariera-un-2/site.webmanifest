@@ -1,0 +1,15 @@
+{
+  "name": "TikTok Kebab",
+  "short_name": "TikTok Kebab",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf4",
+  "theme_color": "#171312",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}

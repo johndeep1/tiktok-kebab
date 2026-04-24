@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin | TikTok Kebab</title>
+    <meta name="description" content="Panel administrare TikTok Kebab pentru produse, preturi, noutati si utilizatori.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#171312">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="admin-body">
+    <section class="login-screen" data-login-screen>
+      <form class="login-box" data-login-form>
+        <a class="brand" href="index.html">
+          <span class="brand-mark">TK</span>
+          <span>
+            <strong>TikTok Kebab</strong>
+            <small>admin securizat</small>
+          </span>
+        </a>
+        <div>
+          <p class="eyebrow">Acces autorizat</p>
+          <h1>Login admin</h1>
+          <p class="login-help">Demo: utilizator <strong>admin</strong>, parola <strong>admin123</strong>.</p>
+        </div>
+        <label>
+          Utilizator
+          <input type="text" name="username" autocomplete="username" required>
+        </label>
+        <label>
+          Parola
+          <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn btn-primary" type="submit">Intra in admin</button>
+        <p class="form-note" data-login-note role="status"></p>
+      </form>
+    </section>
+
+    <div class="admin-shell is-hidden" data-admin-shell>
+      <aside class="admin-sidebar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">TK</span>
+          <span>
+            <strong>TikTok Kebab</strong>
+            <small data-current-role>admin panel</small>
+          </span>
+        </a>
+        <nav aria-label="Administrare">
+          <a class="active" href="#dashboard">Dashboard</a>
+          <a href="#produse">Produse</a>
+          <a href="#noutati-admin">Noutati</a>
+          <a href="#utilizatori" data-superadmin-only>Utilizatori</a>
+          <a href="index.html">Site public</a>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+        <div class="admin-top" id="dashboard">
+          <div>
+            <p class="eyebrow">Panel autorizat</p>
+            <h1 class="admin-title">Dashboard</h1>
+          </div>
+          <div class="admin-actions">
+            <a class="btn btn-secondary" href="index.html">Vezi site-ul</a>
+            <button class="btn btn-primary" type="button" data-logout>Logout</button>
+          </div>
+        </div>
+
+        <section class="admin-grid" aria-label="Indicatori">
+          <article class="admin-card">
+            <span>Comenzi azi</span>
+            <strong>47</strong>
+          </article>
+          <article class="admin-card">
+            <span>Incasari</span>
+            <strong>1.684 lei</strong>
+          </article>
+          <article class="admin-card">
+            <span>Produs top</span>
+            <strong>XL</strong>
+          </article>
+          <article class="admin-card">
+            <span>Timp mediu</span>
+            <strong>14 min</strong>
+          </article>
+        </section>
+
+        <section class="admin-table">
+          <h2>Ultimele comenzi</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Produs</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Ora</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Andrei P.</td>
+                <td>TikTok Kebab XL</td>
+                <td>36 lei</td>
+                <td><span class="status">In lucru</span></td>
+                <td>12:42</td>
+              </tr>
+              <tr>
+                <td>Mara I.</td>
+                <td>Kebab la Farfurie</td>
+                <td>34 lei</td>
+                <td><span class="status">Gata</span></td>
+                <td>12:35</td>
+              </tr>
+              <tr>
+                <td>Cosmin D.</td>
+                <td>Meniu Kebab + Bautura</td>
+                <td>39 lei</td>
+                <td><span class="status">Gata</span></td>
+                <td>12:28</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="admin-panel" id="produse">
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Meniu</p>
+              <h2>Produse si preturi</h2>
+            </div>
+          </div>
+          <form class="admin-form" data-product-form>
+            <input type="hidden" name="id">
+            <label>
+              Produs
+              <input type="text" name="name" placeholder="Ex: Kebab Wrap Clasic" required>
+            </label>
+            <label>
+              Eticheta
+              <input type="text" name="badge" placeholder="Popular">
+            </label>
+            <label>
+              Pret lei
+              <input type="number" name="price" min="0" step="1" placeholder="28" required>
+            </label>
+            <label class="wide-field">
+              Descriere
+              <textarea name="description" rows="3" required></textarea>
+            </label>
+            <label>
+              Vizibil pe site
+              <select name="active">
+                <option value="true">Da</option>
+                <option value="false">Nu</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" type="submit">Salveaza produs</button>
+          </form>
+          <div class="admin-list" data-products-list></div>
+        </section>
+
+        <section class="admin-panel" id="noutati-admin">
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Comunicare</p>
+              <h2>Noutati pentru site</h2>
+            </div>
+          </div>
+          <form class="admin-form" data-news-form>
+            <input type="hidden" name="id">
+            <label>
+              Titlu
+              <input type="text" name="title" placeholder="Ex: Oferta de weekend" required>
+            </label>
+            <label>
+              Data
+              <input type="date" name="date" required>
+            </label>
+            <label>
+              Poza
+              <input type="file" name="image" accept="image/*">
+            </label>
+            <label>
+              Publicat
+              <select name="active">
+                <option value="true">Da</option>
+                <option value="false">Nu</option>
+              </select>
+            </label>
+            <label class="wide-field">
+              Text anunt
+              <textarea name="body" rows="4" required></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Publica noutate</button>
+          </form>
+          <div class="admin-list" data-news-list></div>
+        </section>
+
+        <section class="admin-panel" id="utilizatori" data-superadmin-only>
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Drepturi</p>
+              <h2>Utilizatori admin</h2>
+            </div>
+          </div>
+          <form class="admin-form" data-user-form>
+            <label>
+              Utilizator
+              <input type="text" name="username" required>
+            </label>
+            <label>
+              Parola temporara
+              <input type="text" name="password" required>
+            </label>
+            <label>
+              Rol
+              <select name="role">
+                <option value="admin">Admin produse/noutati</option>
+                <option value="superadmin">Super admin</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" type="submit">Creeaza utilizator</button>
+          </form>
+          <div class="admin-list" data-users-list></div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
