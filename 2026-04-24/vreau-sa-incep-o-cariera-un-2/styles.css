@@ -42,6 +42,49 @@ a {
   text-decoration: none;
 }
 
+.kebab-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.kebab-drop {
+  position: absolute;
+  top: -58px;
+  left: var(--drop-left);
+  width: var(--drop-size);
+  height: calc(var(--drop-size) * 1.7);
+  opacity: 0;
+  transform: translate3d(0, 0, 0) rotate(var(--drop-rotate));
+  animation: kebabFall var(--drop-duration) cubic-bezier(0.18, 0.72, 0.28, 1) forwards;
+}
+
+.kebab-drop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px 999px 10px 10px;
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.45) 45% 49%, transparent 50%),
+    linear-gradient(160deg, #f8d38b 0 34%, #c66a2c 35% 52%, #2f8d54 53% 62%, #f8f0d8 63% 100%);
+  box-shadow: 0 10px 22px rgba(47, 26, 14, 0.18);
+}
+
+.kebab-drop::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10%;
+  width: 28%;
+  height: 42%;
+  border-radius: 999px;
+  background: #d79a49;
+  transform: translateX(-50%);
+  box-shadow: 0 -8px 0 #a94624 inset;
+}
+
 .site-header {
   position: fixed;
   inset: 0 0 auto;
@@ -1091,6 +1134,22 @@ th {
   }
 }
 
+@keyframes kebabFall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) rotate(var(--drop-rotate));
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drop-drift), 108vh, 0) rotate(calc(var(--drop-rotate) + 220deg));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1104,5 +1163,9 @@ th {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .kebab-rain {
+    display: none;
   }
 }
