@@ -70,8 +70,8 @@ const defaultNews = [
 const defaultUsers = [
   {
     id: "u1",
-    username: "admin",
-    password: "admin123",
+    username: "Megaadmin",
+    password: "Megaadmin!",
     role: "superadmin",
   },
 ];
@@ -93,6 +93,21 @@ const readStore = (key, fallback) => {
 
 const writeStore = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
+};
+
+const ensureDefaultAdmin = () => {
+  const users = readStore(storageKeys.users, defaultUsers);
+  const adminUser = users.find((user) => user.username === "Megaadmin");
+
+  if (!adminUser) {
+    writeStore(storageKeys.users, [...defaultUsers, ...users]);
+    return;
+  }
+
+  if (adminUser.role !== "superadmin") {
+    adminUser.role = "superadmin";
+    writeStore(storageKeys.users, users);
+  }
 };
 
 const createId = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -303,7 +318,7 @@ const renderUsers = () => {
             <span>${escapeText(user.role)}</span>
           </div>
           <div class="row-actions">
-            <button type="button" data-delete-user="${user.id}" ${user.username === "admin" ? "disabled" : ""}>Sterge</button>
+            <button type="button" data-delete-user="${user.id}" ${user.username === "Megaadmin" ? "disabled" : ""}>Sterge</button>
           </div>
         </article>
       `,
@@ -401,14 +416,21 @@ document.querySelector("[data-news-form]")?.addEventListener("submit", async (ev
 document.querySelector("[data-user-form]")?.addEventListener("submit", (event) => {
   event.preventDefault();
   const currentUser = getCurrentUser();
-  if (currentUser?.role !== "superadmin") return;
+  const note = document.querySelector("[data-user-note]");
+  if (currentUser?.role !== "superadmin") {
+    note.textContent = "Doar super adminul poate crea utilizatori.";
+    return;
+  }
 
   const form = event.currentTarget;
   const data = new FormData(form);
   const users = readStore(storageKeys.users, defaultUsers);
   const username = data.get("username").trim();
 
-  if (users.some((user) => user.username === username)) return;
+  if (users.some((user) => user.username === username)) {
+    note.textContent = "Acest utilizator exista deja. Alege alt nume.";
+    return;
+  }
 
   users.push({
     id: createId("u"),
@@ -419,6 +441,7 @@ document.querySelector("[data-user-form]")?.addEventListener("submit", (event) =
 
   writeStore(storageKeys.users, users);
   form.reset();
+  note.textContent = `Utilizatorul ${username} a fost creat.`;
   renderUsers();
 });
 
@@ -484,6 +507,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
+ensureDefaultAdmin();
 setAdminVisibility();
 renderAdminProducts();
 renderAdminNews();

@@ -17,8 +17,8 @@ Apoi acceseaza `http://localhost:8080`.
 Pagina `admin.html` are login demo:
 
 ```text
-Utilizator: admin
-Parola: admin123
+Utilizator: Megaadmin
+Parola: Megaadmin!
 ```
 
 Important: acest admin este doar prototip static si salveaza datele in browser cu `localStorage`. Pentru clienti reali trebuie backend, baza de date, parole criptate si upload securizat.
