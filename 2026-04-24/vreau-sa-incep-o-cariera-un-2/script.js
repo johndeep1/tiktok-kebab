@@ -124,6 +124,31 @@ const escapeText = (value) => {
   return div.innerHTML;
 };
 
+const revealObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14 },
+      )
+    : null;
+
+const observeReveals = () => {
+  const revealItems = document.querySelectorAll(".reveal:not(.is-visible)");
+  if (!revealObserver) {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+
+  revealItems.forEach((item) => revealObserver.observe(item));
+};
+
 const header = document.querySelector("[data-header]");
 const nav = document.querySelector("[data-nav]");
 const navToggle = document.querySelector("[data-nav-toggle]");
@@ -156,7 +181,7 @@ const renderPublicProducts = () => {
   target.innerHTML = products
     .map(
       (product, index) => `
-        <article class="menu-item ${index === 1 ? "featured-item" : ""}">
+        <article class="menu-item reveal ${index === 1 ? "featured-item" : ""}">
           <span class="item-badge">${escapeText(product.badge || "Produs")}</span>
           <h3>${escapeText(product.name)}</h3>
           <p>${escapeText(product.description)}</p>
@@ -187,7 +212,7 @@ const renderPublicNews = () => {
   target.innerHTML = news
     .map(
       (item) => `
-        <article class="news-card">
+        <article class="news-card reveal">
           ${
             item.image
               ? `<img class="news-image" src="${item.image}" alt="${escapeText(item.title)}">`
@@ -216,6 +241,7 @@ orderForm?.addEventListener("submit", (event) => {
 
 renderPublicProducts();
 renderPublicNews();
+observeReveals();
 
 const loginScreen = document.querySelector("[data-login-screen]");
 const adminShell = document.querySelector("[data-admin-shell]");
