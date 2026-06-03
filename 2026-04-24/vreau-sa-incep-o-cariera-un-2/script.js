@@ -154,6 +154,11 @@ const nav = document.querySelector("[data-nav]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const orderForm = document.querySelector("[data-order-form]");
 const formNote = document.querySelector("[data-form-note]");
+const newsModal = document.querySelector("[data-news-modal]");
+const newsModalImage = document.querySelector("[data-news-modal-image]");
+const newsModalDate = document.querySelector("[data-news-modal-date]");
+const newsModalTitle = document.querySelector("[data-news-modal-title]");
+const newsModalBody = document.querySelector("[data-news-modal-body]");
 
 const updateHeader = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 24);
@@ -212,7 +217,7 @@ const renderPublicNews = () => {
   target.innerHTML = news
     .map(
       (item) => `
-        <article class="news-card reveal">
+        <article class="news-card reveal" role="button" tabindex="0" data-open-news="${item.id}">
           ${
             item.image
               ? `<img class="news-image" src="${item.image}" alt="${escapeText(item.title)}">`
@@ -228,6 +233,57 @@ const renderPublicNews = () => {
     )
     .join("");
 };
+
+const openNewsModal = (newsId) => {
+  const item = readStore(storageKeys.news, defaultNews).find((newsItem) => newsItem.id === newsId);
+  if (!item || !newsModal) return;
+
+  newsModalDate.textContent = formatDate(item.date);
+  newsModalTitle.textContent = item.title;
+  newsModalBody.textContent = item.body;
+
+  if (item.image) {
+    newsModalImage.innerHTML = `<img src="${item.image}" alt="${escapeText(item.title)}">`;
+  } else {
+    newsModalImage.innerHTML = '<div class="news-image-fallback">TK</div>';
+  }
+
+  newsModal.classList.add("is-open");
+  newsModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+};
+
+const closeNewsModal = () => {
+  if (!newsModal) return;
+  newsModal.classList.remove("is-open");
+  newsModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+};
+
+document.addEventListener("click", (event) => {
+  const opener = event.target.closest?.("[data-open-news]");
+  if (opener) {
+    openNewsModal(opener.dataset.openNews);
+    return;
+  }
+
+  if (event.target.closest?.("[data-close-news-modal]")) {
+    closeNewsModal();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeNewsModal();
+    return;
+  }
+
+  const opener = event.target.closest?.("[data-open-news]");
+  if (opener && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    openNewsModal(opener.dataset.openNews);
+  }
+});
 
 orderForm?.addEventListener("submit", (event) => {
   event.preventDefault();

@@ -174,10 +174,9 @@
         <div class="section-head">
           <p class="eyebrow">Noutati</p>
           <h2>Anunturi si promotii</h2>
-          <p>Zona de noutati poate fi administrata din panel: poze, titluri, texte si anunturi pentru clienti.</p>
         </div>
         <div class="news-grid" data-public-news>
-          <article class="news-card reveal">
+          <article class="news-card reveal" role="button" tabindex="0" data-open-news="n1">
             <div class="news-image news-image-fallback">TK</div>
             <div>
               <span>Astazi</span>
@@ -281,6 +280,22 @@
         </div>
       </section>
     </main>
+
+    <div class="news-modal" data-news-modal aria-hidden="true">
+      <div class="news-modal-backdrop" data-close-news-modal></div>
+      <article class="news-modal-card" role="dialog" aria-modal="true" aria-labelledby="news-modal-title">
+        <button class="news-modal-close" type="button" aria-label="Inchide noutatea" data-close-news-modal>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="news-modal-image" data-news-modal-image></div>
+        <div class="news-modal-content">
+          <span data-news-modal-date></span>
+          <h2 id="news-modal-title" data-news-modal-title></h2>
+          <p data-news-modal-body></p>
+        </div>
+      </article>
+    </div>
 
     <footer class="site-footer" id="contact">
       <div>
